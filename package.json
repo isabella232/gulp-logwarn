@@ -4,8 +4,9 @@
   "description": "A plugin that check if you left debug code",
   "main": "index.js",
   "dependencies": {
-    "event-stream": "~3.3.2",
-    "colors": "~1.1.2"
+    "colors": "~0.6.2",
+    "event-stream": "~3.0.18",
+    "through2" : "~2.0.1"
   },
   "scripts": {
     "test": "./node_modules/.bin/mocha"
