@@ -4,12 +4,9 @@ var PluginError = require('gulp-util').PluginError;
 var through = require('through2')
 
 var logWarn = function (subString, opt) {
-// Collect all files with errors
-  var errorFiles = [],
-    finalMessage = null;
-  substrings = typeof subString === "undefined" ? [] : subString;
+
+  var substrings = typeof subString === "undefined" ? [] : subString;
   opt = opt || {};
-  var hasError = false;
 
   function occurrences(file, cb) {
 
@@ -61,15 +58,17 @@ var logWarn = function (subString, opt) {
 
 
 logWarn.report_failures = function () {
-
+  var hasError = false;
   return through.obj(function (chunk, enc, cb) {
     var failures = chunk.failures;
     if (failures) {
+      hasError = true;
       console.log(failures["red"]);
     }
     cb(null, chunk)
-  }).on('end',function(){
-    return this.emit("error", new PluginError("gulp-logWarn", "you have devil keywords in you code "));
+  }).on('end', function () {
+    if (hasError)
+      return this.emit("error", new PluginError("gulp-logWarn", "you have devil keywords in you code "));
   })
 };
 
